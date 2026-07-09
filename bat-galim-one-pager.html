@@ -823,9 +823,9 @@
 
     .map-grid-wrap {
       display: grid;
-      grid-template-columns: minmax(18rem, 0.86fr) minmax(26rem, 1.42fr);
-      gap: clamp(2rem, 4vw, 5rem);
-      max-width: 82rem;
+      grid-template-columns: minmax(18rem, 0.8fr) minmax(30rem, 1.58fr);
+      gap: clamp(2.5rem, 4.5vw, 6rem);
+      max-width: 88rem;
       margin: 0 auto;
       align-items: center;
       direction: rtl;
@@ -837,14 +837,14 @@
     }
 
     .map-closing-text h2 {
-      margin: 0 0 1rem;
-      font-size: clamp(1.8rem, 3vw, 3rem);
-      line-height: 1.1;
+      margin: 0 0 1.1rem;
+      font-size: clamp(2.7rem, 6.2vw, 6.4rem);
+      line-height: 0.82;
       color: var(--sun);
     }
 
     .map-closing-text p {
-      margin: 0 0 2rem 0;
+      margin: 0 0 2.2rem 0;
       font-size: clamp(0.9rem, 1.1vw, 1.05rem);
       font-weight: 800;
       line-height: 1.6;
@@ -903,14 +903,9 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      max-width: 56rem;
-      min-height: clamp(20rem, 34vw, 32rem);
-      padding: clamp(1.4rem, 3vw, 2.6rem);
-      background:
-        radial-gradient(circle at 22% 18%, rgba(235, 213, 139, 0.12), transparent 14rem),
-        linear-gradient(135deg, rgba(248, 244, 233, 0.08), rgba(248, 244, 233, 0.025));
-      border: 1px solid rgba(248, 244, 233, 0.14);
-      box-shadow: inset 0 0 0 1px rgba(24, 56, 58, 0.25), 0 1.8rem 4rem rgba(10, 30, 32, 0.22);
+      max-width: 64rem;
+      min-height: clamp(22rem, 36vw, 34rem);
+      padding: clamp(0.8rem, 2vw, 1.8rem);
       justify-self: center;
     }
 
@@ -938,12 +933,12 @@
       top: 0.42rem;
       left: 50%;
       z-index: 2;
-      width: 0.82rem;
-      height: 0.82rem;
-      background: radial-gradient(circle at 35% 30%, #fff3b6 0 16%, var(--sun) 17% 55%, #9f7830 56% 100%);
-      border-radius: 999px;
+      width: 0.92rem;
+      height: 0.92rem;
+      background: linear-gradient(135deg, #fff0aa 0 16%, var(--sun) 17% 63%, #9b7939 64% 100%);
+      border-radius: 2px;
       box-shadow: 0 0.18rem 0.45rem rgba(24, 56, 58, 0.45);
-      transform: translateX(-50%);
+      transform: translateX(-50%) rotate(45deg);
       pointer-events: none;
     }
 
@@ -959,12 +954,12 @@
 
     .map-polaroid-frame.map-frame {
       --pin-rotate: -2.5deg;
-      flex: 1.28;
+      flex: 1.75;
     }
 
     .map-polaroid-frame.program-frame {
       --pin-rotate: 2deg;
-      flex: 0.88;
+      flex: 0.7;
     }
 
     .map-polaroid-frame:hover {
@@ -993,9 +988,8 @@
 
     .map-footer-quote {
       text-align: center;
-      margin-top: clamp(6rem, 10vw, 9rem);
-      padding-top: clamp(3rem, 5vw, 4.5rem);
-      border-top: 1px solid rgba(248, 244, 233, 0.18);
+      margin-top: clamp(2.4rem, 5vw, 4rem);
+      padding-top: 0;
     }
 
     @media (max-width: 768px) {
@@ -1014,10 +1008,10 @@
 
     .map-footer-quote p {
       margin: 0;
-      font-size: clamp(0.78rem, 1vw, 0.92rem);
+      font-size: clamp(0.58rem, 0.75vw, 0.68rem);
       font-weight: 800;
-      color: rgba(248, 244, 233, 0.45);
-      letter-spacing: 0.02em;
+      color: rgba(248, 244, 233, 0.32);
+      letter-spacing: 0.03em;
     }
 
     .map-footer-quote span {
@@ -1793,9 +1787,9 @@
         
         <!-- Text & Download Area -->
         <div class="map-closing-text">
-          <h2><span class="simta">מפת הפסטיבל</span></h2>
+          <h2><span class="simta">מפת גלים</span></h2>
           <p>
-            כל מוקדי הפסטיבל, הבתים הפתוחים, הבמות ונקודות המפגש במפה אחת. הורידו את הקבצים המעודכנים כדי לגלות את השכונה צעד אחר צעד.
+            להתמצאות בין הבמות, הבתים הפתוחים ונקודות המפגש. אפשר להוריד מפה לדרך או תוכניה מודפסת עם כל האירועים.
           </p>
           
           <div class="map-buttons-flex">
@@ -1823,7 +1817,7 @@
       </div>
 
       <div class="map-footer-quote">
-        <p>פרוייקט עיצוב לפסטיבל בית גלים במסגרת קורס למיתוג בתרבות</p>
+        <p>עיצוב לפסטיבל בית גלים במסגרת קורס למיתוג בתרבות</p>
       </div>
     </section>
   </main>
