@@ -1,0 +1,2035 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>פסטיבל בית גלים</title>
+  <style>
+    @font-face {
+      font-family: "Simta";
+      src: url("bat-galim-assets/simta3-simta.otf") format("opentype");
+    }
+
+    @font-face {
+      font-family: "Greta";
+      src: url("bat-galim-assets/GretaTextPro_HL-Regular.otf") format("opentype");
+      font-weight: 400;
+    }
+
+    @font-face {
+      font-family: "Greta";
+      src: url("bat-galim-assets/GretaTextPro_HL-Bold.otf") format("opentype");
+      font-weight: 800;
+    }
+
+    :root {
+      --paper: #f8f4e9;
+      --paper-clean: #fffdf7;
+      --ink: #18383a;
+      --muted: #55747a;
+      --sea: #1f555b;
+      --sea-dark: #143c42;
+      --aqua: #00a7c6;
+      --sun: #ebd58b;
+      --lemon: #ebd58b;
+      --sand: #f5d8b3;
+      --line: rgba(24, 56, 58, 0.18);
+      --shadow: 0 1.4rem 3.5rem rgba(24, 56, 58, 0.14);
+      --scroll: 0;
+      --film-progress: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      background: var(--paper-clean);
+      font-family: "Greta", Arial, sans-serif;
+      text-rendering: geometricPrecision;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img,
+    video {
+      display: block;
+      max-width: 100%;
+    }
+
+    .simta {
+      display: inline-block;
+      position: relative;
+      top: 0.12em;
+      font-family: "Simta", "Greta", serif;
+      line-height: 0.86;
+      letter-spacing: 0;
+    }
+
+    .simta-date {
+      top: 0.08em;
+      line-height: 0.8;
+    }
+
+    .nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 3.8rem;
+      padding: 0 clamp(2rem, 5vw, 6rem);
+      background: rgba(24, 56, 58, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(248, 244, 233, 0.1);
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--paper-clean);
+      opacity: 0;
+      transform: translateY(-100%);
+      pointer-events: none;
+      transition: opacity 350ms cubic-bezier(0.16, 1, 0.3, 1), transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .nav a {
+      color: var(--paper-clean);
+      text-shadow: none;
+      transition: color 200ms ease;
+    }
+    
+    .nav a:hover {
+      color: var(--sun);
+    }
+
+    .brand {
+      font-size: 1.15rem;
+      white-space: nowrap;
+      color: var(--paper-clean);
+      text-shadow: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: clamp(1.5rem, 3vw, 3.5rem);
+      align-items: center;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      height: 100svh;
+      padding: 0;
+      overflow: hidden;
+      background: var(--paper-clean);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      isolation: isolate;
+    }
+
+    .hero-bg-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      opacity: 1;
+    }
+
+    .hero-video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(24, 56, 58, 0.3) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .about-details-unified::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image: url("bat-galim-assets/topo-texture.png");
+      background-size: 100rem auto;
+      background-position: center top;
+      background-repeat: repeat;
+      opacity: 0.04;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    .hero-marquee-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      z-index: 4;
+      margin-top: 0;
+      direction: ltr;
+      pointer-events: none;
+      padding-block: 0.8rem;
+      background: var(--sand);
+      border-bottom: 3px solid rgba(24, 56, 58, 0.12);
+    }
+
+    .hero-marquee {
+      display: flex;
+      width: max-content;
+      white-space: nowrap;
+      animation: heroMarquee 70s linear infinite;
+    }
+
+    .hero-marquee span {
+      display: inline-block;
+      font-family: "Simta", "Greta", serif;
+      font-size: clamp(1.6rem, 3.8vw, 4.0rem);
+      font-weight: normal;
+      color: var(--ink);
+      line-height: 1.2;
+      padding-right: 2rem;
+    }
+
+    @keyframes heroMarquee {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+    }
+
+    .hero-card {
+      position: absolute;
+      margin: 0;
+      background: var(--sand);
+      box-shadow: var(--shadow);
+      overflow: visible;
+      cursor: zoom-in;
+    }
+
+    .hero-card img,
+    .hero-card video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .hero-card.sea {
+      inset: auto 4% 12% auto;
+      width: min(44vw, 36rem);
+      transform: rotate(-1.5deg);
+    }
+
+    .hero-card.vertical {
+      inset: 16% auto auto 8%;
+      width: min(20vw, 15rem);
+      transform: rotate(2deg);
+    }
+
+    .hero-card.motion {
+      inset: auto auto 14% 3%;
+      width: min(22vw, 17rem);
+      transform: rotate(-2.5deg);
+    }
+
+    .hero-bottom-meta {
+      position: absolute;
+      bottom: clamp(2rem, 4vh, 4rem);
+      right: clamp(2rem, 5vw, 6rem);
+      max-width: calc(100vw - 4rem);
+      z-index: 4;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .hero-meta-right {
+      max-width: 100%;
+      pointer-events: auto;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.35rem;
+    }
+
+    .hero-brand-title,
+    .hero-brand-date {
+      margin: 0;
+      font-family: "Simta", "Greta", serif;
+      font-size: clamp(1.1rem, 2.2vw, 2.1rem);
+      color: var(--sun);
+      line-height: 1.15;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .marquee-wrap {
+      position: relative;
+      overflow: hidden;
+      background: var(--sea);
+      color: var(--paper);
+      border-block: 1px solid rgba(248, 244, 233, 0.4);
+    }
+
+    .hero::before,
+    .marquee-wrap::before,
+    .film::before,
+    .program::before,
+    .closing::before,
+    .map-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: url("bat-galim-assets/topo-texture.png");
+      background-size: 80rem auto;
+      background-position: center top;
+      opacity: 0.06;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      animation: textureDrift 40s ease-in-out infinite alternate;
+    }
+
+    .marquee {
+      display: flex;
+      width: max-content;
+      gap: 2.8rem;
+      align-items: center;
+      padding: 0.92rem 0 0.72rem;
+      white-space: nowrap;
+      animation: marquee 34s linear infinite;
+      font-size: clamp(3rem, 7vw, 7.6rem);
+      line-height: 0.78;
+    }
+
+    .marquee .simta {
+      top: 0;
+      transform: translateY(0.08em);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(50%); }
+    }
+
+    /* ===== About Section — images dominate, text is small side labels ===== */
+    .about-details-unified {
+      position: relative;
+      background: var(--paper-clean);
+      border-bottom: 1px solid var(--line);
+      padding: clamp(4rem, 6vh, 7rem) clamp(2rem, 4vw, 5rem);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .about-details-inner {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .unified-grid {
+      display: grid;
+      grid-template-columns: 1fr 3.5fr 1fr;
+      gap: clamp(1.5rem, 3vw, 3rem);
+      align-items: center;
+    }
+
+    .details-bottom {
+      margin-top: clamp(8rem, 15vh, 15rem);
+      padding-top: clamp(3rem, 5vh, 5rem);
+      width: 100%;
+      text-align: right;
+    }
+
+    .details-bottom h2 {
+      margin: 0 0 0.6rem;
+      font-size: clamp(1.4rem, 2.2vw, 2.4rem);
+      line-height: 0.95;
+      color: var(--ink);
+    }
+
+    .details-bottom > p {
+      margin: 0 0 1.2rem;
+      font-size: clamp(0.7rem, 0.8vw, 0.82rem);
+      font-weight: 800;
+      line-height: 1.65;
+      color: var(--ink);
+    }
+
+    .unified-column {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.8rem, 1.5vh, 1.2rem);
+    }
+
+    .unified-column h2 {
+      margin: 0 0 0.4rem;
+      font-size: clamp(1.4rem, 2.2vw, 2.4rem);
+      line-height: 0.95;
+      color: var(--ink);
+    }
+
+    .unified-column h3 {
+      margin: 0 0 0.2rem;
+      font-family: "Simta", "Greta", serif;
+      font-size: clamp(0.72rem, 0.85vw, 0.9rem);
+      color: var(--sea);
+      font-weight: 400;
+    }
+
+    .unified-column p {
+      margin: 0;
+      font-size: clamp(0.65rem, 0.75vw, 0.78rem);
+      font-weight: 800;
+      line-height: 1.65;
+      color: var(--ink);
+    }
+
+    .intro-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .intro-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 0.6rem 0;
+    }
+
+    /* Center column: LARGE images — the hero of the layout */
+    .gallery-col {
+      align-items: center;
+      justify-content: center;
+      padding-top: 0;
+    }
+
+    .intro-gallery {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
+      gap: clamp(0.8rem, 1.2vw, 1.5rem);
+      width: 100%;
+      transform: rotate(1deg);
+    }
+
+    .intro-frame {
+      margin: 0;
+      background: transparent;
+      border: 2px solid #c8c0b4;
+      padding: 0;
+      box-shadow: none;
+      transition: transform 300ms ease, box-shadow 300ms ease;
+      cursor: zoom-in;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .intro-frame:first-child {
+      transform: none;
+    }
+
+    .intro-frame:last-child {
+      transform: none;
+    }
+
+    .intro-frame:hover {
+      transform: scale(1.02) !important;
+      box-shadow: 0 8px 28px rgba(24, 56, 58, 0.12);
+      z-index: 10;
+      position: relative;
+    }
+
+    .intro-frame img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1055 / 1491;
+      object-fit: cover;
+      display: block;
+    }
+
+    .film {
+      position: relative;
+      min-height: 420svh;
+      background: var(--ink);
+      border-bottom: 1px solid rgba(248, 244, 233, 0.1);
+      overflow: clip;
+    }
+
+    .film-sticky {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      display: grid;
+      align-content: center;
+      gap: clamp(0.8rem, 1.2vh, 1.2rem);
+      padding: 1.8rem 0 0;
+      overflow: hidden;
+    }
+
+    .film-rows {
+      direction: ltr;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(0.8rem, 1.5vh, 1.2rem);
+      width: 100%;
+      overflow: visible;
+    }
+
+    .film-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(1.2rem, 2.5vh, 2rem);
+      width: max-content;
+      will-change: transform;
+      padding-inline: 0;
+    }
+
+    .film-card {
+      flex: 0 0 auto;
+      width: clamp(20rem, 44vh, 30rem);
+      height: clamp(14rem, 28vh, 22rem);
+      margin: 0;
+      display: block;
+      background: var(--sand);
+      border: 1px solid rgba(24, 56, 58, 0.12);
+      padding: 0.7rem 0.7rem 1.6rem 0.7rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      cursor: zoom-in;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+      position: relative;
+    }
+
+    .film-card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.5);
+      z-index: 10;
+    }
+
+    .film-card.wide {
+      width: clamp(20rem, 44vh, 30rem);
+      height: clamp(14rem, 28vh, 22rem);
+    }
+
+    .film-card.tall {
+      width: clamp(14rem, 28vh, 22rem);
+      height: clamp(20rem, 40vh, 30rem);
+      padding: 0.7rem 0.7rem 1.6rem 0.7rem;
+    }
+
+    .film-card img,
+    .film-card video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border: 1px solid rgba(24, 56, 58, 0.08);
+    }
+
+    .film-card video {
+      background: var(--sea-dark);
+    }
+
+    .program {
+      position: relative;
+      background: var(--sea);
+      color: var(--paper);
+      padding-top: clamp(3.5rem, 6vw, 5.5rem);
+      border-bottom: 1px solid rgba(248, 244, 233, 0.35);
+      overflow: visible; /* CRITICAL for position: sticky to work inside this section */
+      isolation: isolate;
+    }
+
+    .program > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .list-label {
+      margin: 0 0 0;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem) clamp(1.5rem, 3vw, 2.5rem);
+      text-align: right;
+      color: rgba(248, 244, 233, 0.72);
+      font-family: "Simta", serif;
+      font-size: clamp(2.2rem, 4.5vw, 4rem);
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+    }
+
+    .program-day-header {
+      position: sticky;
+      height: 3.2rem;
+      box-sizing: border-box;
+      background-color: #1f555b !important;
+      opacity: 1 !important;
+      backdrop-filter: none !important;
+      padding: 0 clamp(1.2rem, 4vw, 4rem);
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      border-bottom: 2px solid rgba(255, 251, 125, 0.25);
+      border-top: 1px solid rgba(248, 244, 233, 0.08);
+      margin-top: 0;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 200ms ease, border-color 300ms ease, box-shadow 300ms ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+    
+    .program-day-header:hover {
+      background: rgba(248, 244, 233, 0.05);
+      border-bottom-color: rgba(255, 251, 125, 0.8);
+    }
+
+    .program .day-1-header {
+      top: 3.8rem;
+      z-index: 121;
+    }
+
+    .program .day-2-header {
+      top: calc(3.8rem + 3.2rem);
+      z-index: 122;
+    }
+
+    .program .day-3-header {
+      top: calc(3.8rem + 6.4rem);
+      z-index: 123;
+    }
+
+    .day-number {
+      font-family: "Simta", serif;
+      font-variation-settings: "wght" 790;
+      font-weight: 790;
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      color: var(--sun);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .day-name {
+      font-family: "Simta", serif;
+      font-variation-settings: "wght" 790;
+      font-weight: 790;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      color: rgba(248, 244, 233, 0.95);
+      line-height: 1;
+    }
+
+    .program-row {
+      position: relative;
+      background: var(--sea);
+      display: grid;
+      grid-template-columns: 6rem minmax(14rem, 1fr) minmax(12rem, 0.7fr);
+      gap: clamp(1rem, 3vw, 3rem);
+      min-height: clamp(7.5rem, 13vw, 10.5rem);
+      padding: clamp(1.2rem, 2.5vw, 2.2rem) clamp(1rem, 4vw, 4rem);
+      border-top: 1px solid rgba(248, 244, 233, 0.22);
+      transition: border-color 400ms ease, background 200ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 700ms ease;
+      transform: translateY(2rem);
+      opacity: 0;
+    }
+
+    .program-row.is-visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .program-row:hover {
+      background: rgba(248, 244, 233, 0.03);
+    }
+
+    .row-number {
+      color: rgba(248, 244, 233, 0.55);
+      font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+      line-height: 1;
+    }
+
+    .row-title {
+      margin: 0 0 0.8rem;
+      color: var(--sand);
+      font-size: clamp(1.8rem, 3.2vw, 3.2rem);
+      line-height: 1.25;
+    }
+
+    .row-title .simta,
+    .row-number .simta,
+    .details h2 .simta,
+    .closing h2 .simta {
+      top: 0;
+      transform: translateY(0.08em);
+    }
+
+    .program .row-title .simta {
+      font-variation-settings: "wght" 790;
+      font-weight: 790;
+      letter-spacing: 0.01em;
+      line-height: 1.25;
+    }
+
+    .program .row-number .simta {
+      font-variation-settings: "wght" 790;
+      font-weight: 790;
+      letter-spacing: 0.01em;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 1.8rem;
+      padding: 0.25rem 0.72rem 0.35rem;
+      border: 1px solid rgba(255, 251, 125, 0.35);
+      border-radius: 999px;
+      color: var(--sun); /* lemon yellow highlight */
+      font-size: 0.85rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .row-note {
+      align-self: center;
+      margin: 0;
+      color: rgba(248, 244, 233, 0.7);
+      font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+      font-weight: 800;
+      line-height: 1.7;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: minmax(18rem, 0.9fr) minmax(18rem, 1.1fr);
+      gap: clamp(2rem, 7vw, 7rem);
+      padding: clamp(5rem, 8vw, 8rem) clamp(1rem, 5vw, 5rem);
+      background: var(--paper-clean);
+    }
+
+    .details h2,
+    .closing h2 {
+      margin: 0;
+      font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+      line-height: 0.95;
+    }
+
+    .details p {
+      max-width: 40rem;
+      margin: 1rem 0 0;
+      font-size: clamp(0.98rem, 1.2vw, 1.15rem);
+      font-weight: 800;
+      line-height: 1.52;
+    }
+
+    .facts {
+      display: grid;
+      align-self: end;
+      gap: 0;
+      min-width: 0;
+    }
+
+    .fact {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--line);
+      font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+      font-weight: 800;
+    }
+
+    .closing {
+      position: relative;
+      background: var(--sea-dark);
+      color: var(--paper);
+      overflow: hidden;
+      border-top: 1px solid rgba(248, 244, 233, 0.35);
+      isolation: isolate;
+    }
+
+    /* Map closing section */
+    .map-section {
+      position: relative;
+      background: var(--sea-dark);
+      color: var(--paper);
+      padding: clamp(5rem, 9vw, 9rem) clamp(2rem, 5vw, 6rem) clamp(4rem, 7vw, 7rem);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .map-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("bat-galim-assets/texture-lines-dark-wide.png");
+      background-size: 70rem auto;
+      background-position: center;
+      opacity: 0.06;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .map-section > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .map-grid-wrap {
+      display: grid;
+      grid-template-columns: minmax(18rem, 1fr) minmax(22rem, 1.25fr);
+      gap: clamp(2rem, 4vw, 5rem);
+      max-width: 74rem;
+      margin: 0 auto;
+      align-items: center;
+      direction: rtl;
+    }
+
+    .map-closing-text {
+      text-align: right;
+      margin-bottom: 0;
+    }
+
+    .map-closing-text h2 {
+      margin: 0 0 1rem;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      line-height: 1.1;
+      color: var(--sun);
+    }
+
+    .map-closing-text p {
+      margin: 0 0 2rem 0;
+      font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+      font-weight: 800;
+      line-height: 1.6;
+      color: var(--sand);
+      max-width: 36rem;
+    }
+
+    .map-buttons-flex {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+
+    .map-download-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.8rem;
+      font-size: 0.95rem;
+      font-weight: 800;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 200ms ease, transform 200ms ease;
+    }
+
+    .map-download-btn.main-btn {
+      background: var(--sun);
+      color: var(--ink);
+      box-shadow: 0 4px 15px rgba(255, 251, 125, 0.15);
+    }
+
+    .map-download-btn.main-btn:hover {
+      background: #fffda8;
+      transform: translateY(-2px);
+    }
+
+    .map-download-btn.secondary-btn {
+      background: rgba(248, 244, 233, 0.08);
+      color: var(--paper);
+      border: 1px solid rgba(248, 244, 233, 0.25);
+    }
+
+    .map-download-btn.secondary-btn:hover {
+      background: rgba(248, 244, 233, 0.14);
+      transform: translateY(-2px);
+    }
+
+    .map-preview-wrap {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 46rem;
+      justify-self: center;
+    }
+
+    .map-polaroid-frame {
+      position: relative;
+      padding: 0.65rem 0.65rem 1.5rem 0.65rem;
+      background: #ffffff;
+      border: 1px solid rgba(248, 244, 233, 0.12);
+      box-shadow: 0 1.5rem 4rem rgba(10, 30, 32, 0.45);
+      cursor: zoom-in;
+      transition: transform 300ms ease, box-shadow 300ms ease;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .map-polaroid-frame.map-frame {
+      transform: rotate(-3deg);
+    }
+
+    .map-polaroid-frame.program-frame {
+      transform: rotate(2.5deg);
+    }
+
+    .map-polaroid-frame:hover {
+      transform: rotate(0deg) scale(1.05);
+      box-shadow: 0 2rem 5rem rgba(10, 30, 32, 0.6);
+      z-index: 10;
+    }
+
+    .map-polaroid-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid rgba(24, 56, 58, 0.06);
+    }
+
+    .polaroid-label {
+      display: block;
+      margin-top: 0.6rem;
+      font-family: "Greta", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .map-footer-quote {
+      text-align: center;
+      margin-top: clamp(3rem, 6vw, 5.5rem);
+      padding-top: clamp(2rem, 4vw, 3.5rem);
+      border-top: 1px solid rgba(248, 244, 233, 0.18);
+    }
+
+    @media (max-width: 768px) {
+      .map-grid-wrap {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .map-closing-text {
+        text-align: center;
+      }
+      .map-buttons-flex {
+        justify-content: center;
+      }
+    }
+
+
+    .map-footer-quote p {
+      margin: 0;
+      font-size: clamp(0.78rem, 1vw, 0.92rem);
+      font-weight: 800;
+      color: rgba(248, 244, 233, 0.45);
+      letter-spacing: 0.02em;
+    }
+
+    .map-footer-quote span {
+      color: var(--sun);
+      font-family: "Simta", serif;
+    }
+
+    @media (max-width: 960px) {
+      .nav {
+        grid-template-columns: 1fr auto;
+      }
+
+      .brand {
+        font-size: 1.08rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 5.6rem 1.25rem 3rem;
+      }
+
+      .hero-grid,
+      .intro,
+      .details,
+      .closing {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-grid {
+        min-height: auto;
+      }
+
+      .hero-type {
+        min-height: auto;
+      }
+
+      .hero h1 {
+        font-size: clamp(4.2rem, 18vw, 8rem);
+      }
+
+      .hero-info {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-date {
+        text-align: right;
+      }
+
+      .hero-media {
+        min-height: 32rem;
+      }
+
+      .hero-card.sea {
+        width: 82%;
+      }
+
+      .hero-card.vertical {
+        width: 38%;
+      }
+
+      .hero-card.motion {
+        width: 46%;
+      }
+
+      .intro-gallery {
+        grid-row: 2;
+        width: min(36rem, 100%);
+      }
+
+      .film {
+        min-height: 140svh;
+      }
+
+      .film-card {
+        width: 13rem;
+        height: 15rem;
+      }
+
+      .film-card.wide {
+        width: 22rem;
+      }
+
+      .program-row {
+        grid-template-columns: 4.8rem 1fr;
+      }
+
+      .row-note {
+        grid-column: 2;
+      }
+
+      .closing-media {
+        min-height: 28rem;
+      }
+
+      .closing-media figure:first-child {
+        width: min(58vw, 20rem);
+      }
+
+      .closing-media figure:last-child {
+        width: min(62vw, 24rem);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .nav {
+        height: 4.2rem;
+        padding-inline: 0.8rem;
+      }
+
+      .date-pill {
+        width: 7.8rem;
+        height: 2.55rem;
+        font-size: 1.05rem;
+      }
+
+      .hero {
+        padding-top: 4.8rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(3.1rem, 22vw, 5.4rem);
+      }
+
+      .intro-gallery {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .film-card {
+        width: 10.8rem;
+        height: 13rem;
+      }
+
+      .film-card.wide {
+        width: 18rem;
+      }
+
+      .program-row {
+        grid-template-columns: 1fr;
+      }
+
+      .row-note {
+        grid-column: auto;
+      }
+
+      .fact {
+        display: grid;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .marquee,
+      .film-row,
+      .hero-card,
+      .intro-gallery,
+      .closing-media figure {
+        animation: none;
+        transform: none !important;
+      }
+    }
+
+    /* Lightbox Modal CSS */
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(24, 56, 58, 0.94);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 300ms ease;
+    }
+
+    .lightbox-modal.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--paper);
+      font-size: 3.5rem;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 1010;
+      transition: transform 200ms ease;
+    }
+
+    .lightbox-close:hover {
+      transform: scale(1.1);
+    }
+
+    .lightbox-image,
+    .lightbox-video {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      box-shadow: 0 1rem 3.5rem rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(248, 244, 233, 0.12);
+      border-radius: 4px;
+      transform: scale(0.95);
+      transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+      display: none;
+    }
+
+    .lightbox-modal.is-active .lightbox-image,
+    .lightbox-modal.is-active .lightbox-video {
+      transform: scale(1);
+    }
+
+    /* Interactive Calendar / Day Tabs CSS */
+    .program-tabs {
+      display: flex;
+      justify-content: center;
+      gap: clamp(1rem, 3vw, 2.5rem);
+      margin-bottom: clamp(2rem, 5vh, 4rem);
+      border-bottom: 1px solid rgba(248, 244, 233, 0.12);
+      padding-bottom: 1.2rem;
+      padding-inline: 1rem;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: rgba(248, 244, 233, 0.55);
+      font-family: "Simta", "Greta", serif;
+      font-size: clamp(1.15rem, 2vw, 1.6rem);
+      font-weight: 800;
+      cursor: pointer;
+      padding: 0.4rem 0.8rem;
+      position: relative;
+      transition: color 250ms ease;
+    }
+
+    .tab-btn:hover {
+      color: rgba(248, 244, 233, 0.85);
+    }
+
+    .tab-btn.active {
+      color: var(--paper);
+    }
+
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1.35rem;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--paper);
+    }
+
+    .program-day-content {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 0 clamp(1rem, 4vw, 4rem);
+    }
+
+    .program-day-content.active {
+      display: flex;
+    }
+
+    .event-card {
+      display: grid;
+      grid-template-columns: 8rem 1fr 14rem;
+      gap: 2rem;
+      border-bottom: 1px solid rgba(248, 244, 233, 0.08);
+      padding-bottom: 1.8rem;
+      align-items: start;
+    }
+
+    .event-time {
+      font-family: "Simta", serif;
+      font-size: clamp(1.2rem, 1.5vw, 1.45rem);
+      font-weight: 800;
+      color: var(--paper);
+      background: rgba(255, 255, 255, 0.07);
+      padding: 0.35rem 0.85rem 0.25rem;
+      border-radius: 4px;
+      text-align: center;
+      width: fit-content;
+    }
+
+    .event-title {
+      font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+      font-weight: 800;
+      color: var(--paper);
+      margin: 0 0 0.5rem;
+      line-height: 1.25;
+    }
+
+    .event-desc {
+      font-size: clamp(0.92rem, 1.1vw, 1.02rem);
+      line-height: 1.55;
+      color: rgba(248, 244, 233, 0.8);
+      margin: 0;
+    }
+
+    .event-location {
+      font-size: clamp(0.9rem, 1.1vw, 1rem);
+      font-weight: 800;
+      color: var(--aqua);
+      text-align: left;
+    }
+
+    /* Details visuals (Poster only) styling */
+    .details-visuals {
+      display: flex;
+      justify-content: center;
+      margin-top: 3rem;
+      width: 100%;
+    }
+
+    .visual-card {
+      margin: 0;
+      background: #ffffff;
+      border: 1px solid rgba(24, 56, 58, 0.05);
+      padding: 0.8rem;
+      box-shadow: 0 1rem 3rem rgba(24, 56, 58, 0.06);
+      max-width: 22rem;
+      width: 100%;
+    }
+
+    .visual-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: zoom-in;
+    }
+
+    .visual-card figcaption {
+      font-family: "Greta", serif;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .details-visuals {
+        justify-content: flex-start;
+      }
+    }
+
+    /* Sound toggle styles */
+    .sound-toggle {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      z-index: 99;
+      width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 50%;
+      border: 1px solid rgba(248, 244, 233, 0.15);
+      background: rgba(24, 56, 58, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      transition: background-color 300ms ease, transform 300ms ease, border-color 300ms ease;
+    }
+
+    .sound-toggle:hover {
+      background: rgba(24, 56, 58, 0.95);
+      border-color: rgba(255, 251, 125, 0.7);
+      transform: scale(1.05);
+    }
+
+    .sound-icon-waves {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 1.1rem;
+    }
+
+    .sound-icon-waves span {
+      display: block;
+      width: 3px;
+      background: var(--paper-clean);
+      border-radius: 2px;
+      transform-origin: bottom;
+      animation: soundWaveQuiet 1.2s ease infinite alternate;
+      animation-play-state: paused;
+    }
+
+    .sound-toggle.is-playing .sound-icon-waves span {
+      animation-play-state: running;
+      background: var(--sun);
+    }
+
+    .sound-icon-waves span:nth-child(1) { height: 35%; animation-duration: 0.8s; }
+    .sound-icon-waves span:nth-child(2) { height: 75%; animation-duration: 1.1s; animation-delay: 0.15s; }
+    .sound-icon-waves span:nth-child(3) { height: 50%; animation-duration: 0.9s; animation-delay: 0.3s; }
+    .sound-icon-waves span:nth-child(4) { height: 95%; animation-duration: 1.2s; animation-delay: 0.05s; }
+
+    @keyframes soundWaveQuiet {
+      0% { transform: scaleY(0.3); }
+      100% { transform: scaleY(1); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="ניווט">
+    <a class="brand" href="#top"><span class="simta">פסטיבל בית גלים ה-16</span></a>
+    <div class="nav-links">
+      <a href="#about">על הפסטיבל</a>
+      <a href="#details">מידע</a>
+      <a href="#program">תוכנית</a>
+      <a href="#film">גלריה</a>
+      <a href="#map">מפה</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="top">
+      <video class="hero-bg-video" src="bat-galim-assets/motion-01.mp4" autoplay muted loop playsinline></video>
+      <div class="hero-video-overlay"></div>
+      
+      <div class="hero-marquee-container">
+        <div class="hero-marquee">
+          <span>פסטיבל בית גלים ה-16 ❖ פסטיבל בית גלים ה-16 ❖ פסטיבל בית גלים ה-16 ❖ פסטיבל בית גלים ה-16 ❖ </span>
+          <span>פסטיבל בית גלים ה-16 ❖ פסטיבל בית גלים ה-16 ❖ פסטיבל בית גלים ה-16 ❖ פסטיבל בית גלים ה-16 ❖ </span>
+        </div>
+      </div>
+
+
+      <div class="hero-bottom-meta">
+        <div class="hero-meta-right">
+          <p class="hero-brand-title">פסטיבל ה-16</p>
+          <p class="hero-brand-date"><span style="direction: ltr; display: inline-block;">9-11</span> באוקטובר</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About + Details: Unified Section -->
+    <section class="about-details-unified" id="about">
+      <div class="about-details-inner">
+
+        <div class="unified-grid">
+
+          <!-- ימין: על הפסטיבל -->
+          <div class="unified-column description-col">
+            <h2><span class="simta">על הפסטיבל</span></h2>
+            <div class="intro-block">
+              <h3>בתים פתוחים וסיורים</h3>
+              <p>שלושה ימים של מפגשים אינטימיים בסטודיו ובבתים הפרטיים של יוצרי השכונה. לצדם יתקיימו סיורים מודרכים באדריכלות ההיסטורית, מופעי מוזיקה, הצגות וסדנאות יצירה לכל המשפחה.</p>
+            </div>
+          </div>
+
+          <!-- אמצע: 2 תמונות -->
+          <div class="unified-column gallery-col">
+            <div class="intro-gallery">
+              <figure class="intro-frame">
+                <img src="bat-galim-assets/bg-coast-group.png" alt="פסלים וקו הים בבית גלים">
+              </figure>
+              <figure class="intro-frame">
+                <img src="bat-galim-assets/bg-arches.png" alt="קשתות בטיילת מול הים">
+              </figure>
+            </div>
+          </div>
+
+          <!-- שמאל: תערוכה מרכזית -->
+          <div class="unified-column caption-col">
+            <h2><span class="simta">תערוכה מרכזית</span></h2>
+            <div class="intro-block">
+              <p>במרכז הקהילתי בת גלים תוצג תערוכת הדגל המפגישה מעל 100 אמנים ואמניות מקומיים. ציור, פיסול, צילום, קרמיקה וויטראז׳ המעניקים ביטוי לזהות המגוונת של השכונה.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- פרטים ומידע — מתחת, לכל הרוחב -->
+        <div class="details-bottom" id="details">
+          <h2><span class="simta">פרטים ומידע</span></h2>
+          <p>פסטיבל בית גלים ה-16 מזמין אתכם לחוויה מרהיבה של אמנות, מוזיקה ותרבות לאורך קו החוף.</p>
+          <div class="facts">
+            <div class="fact"><span>תאריכים</span><span>9-11.10 (חמישי-שבת)</span></div>
+            <div class="fact"><span>שעות פעילות</span><span>חמישי 10:00-22:00 | שישי 10:00-14:00 | שבת 10:00-20:00</span></div>
+            <div class="fact"><span>מיקום</span><span>רחבי שכונת בית גלים, חיפה</span></div>
+            <div class="fact"><span>תערוכה מרכזית</span><span>גבה גלים, מרכז קהילתי בית גלים</span></div>
+            <div class="fact"><span>כניסה</span><span>חופשית!</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="program" id="program">
+      <p class="list-label">מה קורה בפסטיבל</p>
+
+      <!-- יום חמישי -->
+      <div id="day-1-header" class="program-day-header day-1-header">
+        <span class="day-number">01</span>
+        <span class="day-name">חמישי 9.10</span>
+      </div>
+
+      <article class="program-row day-1-first-row">
+          <div class="row-number"><span class="simta">01</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">בוקר תנועה מול הים</span></h2>
+            <div class="tags">
+              <span class="tag">08:00</span>
+              <span class="tag">טיילת בת גלים // שדרות בת גלים 1</span>
+            </div>
+          </div>
+          <p class="row-note">תרגולי בוקר לפתיחת הגוף והנשימה: יוגה ויניאסה עם אראל ליפשיץ דותן, פילאטיס עם מאיה אנה כהן, או צ'יקונג בהדרכת שי ניר. יש להצטייד במזרן אישי.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">02</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">אקרובאלנס משפחתי // משה ועקנין</span></h2>
+            <div class="tags">
+              <span class="tag">09:00</span>
+              <span class="tag">טיילת בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">סדנה חווייתית להורים וילדים. נלמד תרגילים פשוטים, נחווה הצלחה ומשחקיות, ונרגיש מה זה אומר לסמוך, לתת משקל ולהרפות.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">03</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">תערוכת "גבה גלים" // מוזיאון הנייר</span></h2>
+            <div class="tags">
+              <span class="tag">10:00</span>
+              <span class="tag">מרכז קהילתי בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">האמנים לירון חנה אוחיון ורעי רביב בשיתוף קהילת השכונה. פסלי נייר גדולים המורכבים מקולאז' של תמונות ארכיון ותושבים, המשקפים את העבר וההווה של בת גלים.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">04</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">המאבק הסביבתי על בת גלים // חיים רז</span></h2>
+            <div class="tags">
+              <span class="tag">11:00</span>
+              <span class="tag">בר גלים // רציף פנחס מרגולין</span>
+            </div>
+          </div>
+          <p class="row-note">הרצאה מרתקת של חיים רז מוותיקי השכונה על המאבק המוצלח (1995-2007) למניעת ייבוש הים והקמת מרינת הנדל"ן בבת גלים.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">05</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">בניית סירות מקרטון ומשט חגיגי</span></h2>
+            <div class="tags">
+              <span class="tag">16:30</span>
+              <span class="tag">חוף הלגונה // טיילת</span>
+            </div>
+          </div>
+          <p class="row-note">בניית סירות מקרטון לילדים והורים במגרש המשחקים, ולאחריה משט חגיגי וצבעוני במי הלגונה.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">06</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">מופע שקיעה // יעל דקלבאום</span></h2>
+            <div class="tags">
+              <span class="tag">18:00</span>
+              <span class="tag">טיילת בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">הופעת סולו מרגשת מול הגלים של הזמרת והיוצרת יעל דקלבאום (חברת "הבנות נחמה"), במסע מוזיקלי מעורר השראה.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">07</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">מופע מרכזי // אלדד ציטרין</span></h2>
+            <div class="tags">
+              <span class="tag">21:00</span>
+              <span class="tag">טיילת בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">חוויית הופעה יוצאת דופן של יוצר ומפיק המנגן כתזמורת של איש אחד, מוקף באנסמבל כלים אקוסטיים ואלקטרוניים המופקים בזמן אמת.</p>
+        </article>
+
+      <!-- יום שישי -->
+      <div id="day-2-header" class="program-day-header day-2-header">
+        <span class="day-number">02</span>
+        <span class="day-name">שישי 10.10</span>
+      </div>
+
+      <article class="program-row day-2-first-row">
+          <div class="row-number"><span class="simta">08</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">משחה בת גלים המסורתי</span></h2>
+            <div class="tags">
+              <span class="tag">07:00</span>
+              <span class="tag">חוף בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">מקצה שחייה קהילתי פתוח לציבור במרחקים של 1 ק"מ ו-1.5 ק"מ. זינוק מסוכה מספר 1. חובת שחייה עם מצוף אישי.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">09</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">תיאטרון שירוקלחת // קריוקי בתנועה</span></h2>
+            <div class="tags">
+              <span class="tag">10:30</span>
+              <span class="tag">טיילת ושדרות בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">אמבטיה יבשה ניידת המורכבת על תלת-אופן צבעוני מזמינה את העוברים והשבים לשיר כאילו אף אחד לא רואה. הרבה צחוק ושמחה.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">10</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">העכבר שחלם להיות פיל</span></h2>
+            <div class="tags">
+              <span class="tag">13:00</span>
+              <span class="tag">מרכז קהילתי בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">הצגה לכל המשפחה. הצגה צבעונית, מוזיקלית ומעשירה המיועדת להורים וילדים במרכז הקהילתי.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">11</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">מופע צהריים אינטימי // תומר ישעיהו</span></h2>
+            <div class="tags">
+              <span class="tag">15:00</span>
+              <span class="tag">מרכז קהילתי בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">תומר ישעיהו (גיטריסט, יוצר ונגן בוזוקי) בהופעה חמה בלי תיווך ובלי מחיצות - מוזיקה אמיתית ברגע נדיר של קרבה.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">12</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">מארק אלקטרוני // מארו (מארק רודיס)</span></h2>
+            <div class="tags">
+              <span class="tag">16:30</span>
+              <span class="tag">הגינה הקהילתית // החייל פינת הקלעים</span>
+            </div>
+          </div>
+          <p class="row-note">הופעת מוזיקה אלקטרונית מרקידה ומזיזה המשלבת מנגינות חיות על גיטרה, חליל ושירה אל מול הדשא בגינה.</p>
+        </article>
+
+      <!-- יום שבת -->
+      <div id="day-3-header" class="program-day-header day-3-header">
+        <span class="day-number">03</span>
+        <span class="day-name">שבת 11.10</span>
+      </div>
+
+      <article class="program-row day-3-first-row">
+          <div class="row-number"><span class="simta">13</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">מקהלת בת גלים // טליה אליאב</span></h2>
+            <div class="tags">
+              <span class="tag">11:00</span>
+              <span class="tag">מרכז קהילתי בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">מופע מיוחד של הפרויקט המוזיקלי הקהילתי החושף את תהליכי העבודה והיצירה במקהלה, בניצוחה של המוזיקאית טליה אליאב.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">14</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">הצגה לכל המשפחה: העץ המאומץ</span></h2>
+            <div class="tags">
+              <span class="tag">13:00</span>
+              <span class="tag">מרכז קהילתי בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">שעת סיפור ותיאטרון בובות אינטראקטיבי ומלא דמיון המיועד לילדים בגילאי 3 ומעלה והוריהם.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">15</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">אומנות, אקטיביזם ותקווה // זאב אנגלמאייר</span></h2>
+            <div class="tags">
+              <span class="tag">14:30</span>
+              <span class="tag">מרכז קהילתי בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">מפגש הפורש את יצירתו רבת השנים של האמן, תהליכי היצירה שלו, והאופן שבו אמנות יכולה לפגוש את המציאות ולהגיב אליה באופטימיות.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">16</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">סדנת קונטקט: Be The Wave // דניאל רם</span></h2>
+            <div class="tags">
+              <span class="tag">16:30</span>
+              <span class="tag">סטודיו ענבר // רח׳ נהלל 17</span>
+            </div>
+          </div>
+          <p class="row-note">סדנת היכרות עם שפת התנועה, המגע וההקשבה של קונטקט אימפרוביזציה. מתאים גם למתחילים ללא ניסיון קודם.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">17</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">מופע המחווה "צלילי הצפון" // יואב קוטנר</span></h2>
+            <div class="tags">
+              <span class="tag">18:00</span>
+              <span class="tag">טיילת בת גלים</span>
+            </div>
+          </div>
+          <p class="row-note">ערב שירים, זכרונות וסיפורים המוקדש ליוצרים שצמחו בחיפה ובצפון, בביצוע אנסמבל בת גלים יחד עם מוזיקאים חיפאים מקומיים.</p>
+        </article>
+
+        <article class="program-row">
+          <div class="row-number"><span class="simta">18</span></div>
+          <div>
+            <h2 class="row-title"><span class="simta">מסיבת נעילה // DJ Tamer &amp; MAH MOOD</span></h2>
+            <div class="tags">
+              <span class="tag">17:00</span>
+              <span class="tag">מילהאוס // שדרות בת גלים 16</span>
+            </div>
+          </div>
+          <p class="row-note">חגיגת שמונה שנים למילהאוס ומסיבת סגירה רשמית לפסטיבל. אלכוהול, אוכל טוב וגרוב מעולה בשדרה.</p>
+        </article>
+    </section>
+
+
+    <section class="film" id="film" aria-label="סרט נע של דימויים">
+      <div class="film-sticky">
+        <div class="film-rows">
+          <div class="film-row top">
+            <figure class="film-card tall"><img src="bat-galim-assets/identity-bridge.png" alt="גשר בבת גלים"></figure>
+            <figure class="film-card tall"><video src="bat-galim-assets/motion-01.mp4" autoplay muted loop playsinline></video></figure>
+            <figure class="film-card"><img src="bat-galim-assets/bg-house-tower.png" alt="בית אבן ודקלים"></figure>
+            <figure class="film-card tall"><img src="bat-galim-assets/bg-stone-corner.png" alt="בית אבן בפינת רחוב"></figure>
+            <figure class="film-card"><img src="bat-galim-assets/bg-roundabout-wide.png" alt="כיכר וחזיתות"></figure>
+            <figure class="film-card tall"><img src="bat-galim-assets/bg-community.png" alt="מבנה קהילתי"></figure>
+            <figure class="film-card"><img src="bat-galim-assets/bg-street-sea.png" alt="רחוב היורד אל הים"></figure>
+            <figure class="film-card tall"><img src="bat-galim-assets/bg-stone-house.png" alt="בית ודקלים"></figure>
+          </div>
+          <div class="film-row bottom">
+            <figure class="film-card tall"><img src="bat-galim-assets/bg-flag.png" alt="קו החוף ודגל"></figure>
+            <figure class="film-card"><video src="bat-galim-assets/motion-02.mp4" autoplay muted loop playsinline></video></figure>
+            <figure class="film-card tall"><img src="bat-galim-assets/identity-sculpture.png" alt="פסלים בבת גלים"></figure>
+            <figure class="film-card"><img src="bat-galim-assets/bg-beach.png" alt="חוף בית גלים"></figure>
+            <figure class="film-card tall"><img src="bat-galim-assets/bg-mountain-road.png" alt="רחוב והר הכרמל"></figure>
+            <figure class="film-card"><img src="bat-galim-assets/bg-green-house-wide.png" alt="בית ירוק ברחוב"></figure>
+            <figure class="film-card tall"><img src="bat-galim-assets/bg-green-balcony.png" alt="בית עם מרפסת ירוקה"></figure>
+            <figure class="film-card"><img src="bat-galim-assets/bg-arches.png" alt="קשתות בטיילת"></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="map-section" id="map">
+      <div class="map-grid-wrap">
+        
+        <!-- Text & Download Area -->
+        <div class="map-closing-text">
+          <h2><span class="simta">מפת הפסטיבל</span></h2>
+          <p>
+            כל מוקדי הפסטיבל, הבתים הפתוחים, הבמות ונקודות המפגש במפה אחת. הורידו את הקבצים המעודכנים כדי לגלות את השכונה צעד אחר צעד.
+          </p>
+          
+          <div class="map-buttons-flex">
+            <a class="map-download-btn main-btn" href="bat-galim-assets/תוכניה.pdf" download="תוכניה-פסטיבל-בית-גלים.pdf">
+              ⬇ הורדת תוכניה (PDF)
+            </a>
+            <a class="map-download-btn secondary-btn" href="bat-galim-assets/מפה.pdf" download="מפה-פסטיבל-בית-גלים.pdf">
+              ⬇ הורדת מפה (PDF)
+            </a>
+          </div>
+        </div>
+
+        <!-- Styled Polaroid Previews: Map & Program -->
+        <div class="map-preview-wrap">
+          <div class="map-polaroid-frame map-frame">
+            <img class="lightbox-trigger" src="bat-galim-assets/צילום מסך 2026-07-09 ב-17.33.19.png" alt="מפת הפסטיבל">
+            <span class="polaroid-label">מפת הפסטיבל</span>
+          </div>
+          <div class="map-polaroid-frame program-frame">
+            <img class="lightbox-trigger" src="bat-galim-assets/תמונה של התוכניה.png" alt="תוכניית הפסטיבל">
+            <span class="polaroid-label">תוכניית הפסטיבל</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="map-footer-quote">
+        <p>פרוייקט עיצוב לפסטיבל בית גלים במסגרת קורס למיתוג בתרבות</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sound Toggle Button -->
+  <button class="sound-toggle" aria-label="הפעלה או השתקת סאונד רקע">
+    <span class="sound-icon-waves">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+  </button>
+  <audio id="bg-sound" src="bat-galim-assets/stereogenicstudio-beach-02-404144.mp3" loop autoplay preload="auto"></audio>
+
+  <div class="lightbox-modal" id="lightbox" aria-hidden="true" role="dialog">
+    <button class="lightbox-close" aria-label="סגור תמונה">&times;</button>
+    <img class="lightbox-image" src="" alt="">
+    <video class="lightbox-video" src="" controls autoplay muted loop playsinline></video>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const film = document.querySelector(".film");
+    const intro = document.querySelector(".intro");
+    const rows = document.querySelectorAll(".program-row");
+    const filmRowTop = document.querySelector(".film-row.top");
+    const filmRowBottom = document.querySelector(".film-row.bottom");
+
+    function sectionProgress(section) {
+      if (!section) return 0;
+      const rect = section.getBoundingClientRect();
+      const distance = rect.height - window.innerHeight;
+      if (distance <= 0) return rect.top < 0 ? 1 : 0;
+      return Math.min(1, Math.max(0, -rect.top / distance));
+    }
+
+    function updateMotion() {
+      const scrollY = window.scrollY;
+      root.style.setProperty("--scroll", Math.min(1, scrollY / Math.max(1, window.innerHeight)).toFixed(4));
+      
+      const filmProgress = sectionProgress(film);
+      root.style.setProperty("--film-progress", filmProgress.toFixed(4));
+      
+      if (intro) intro.style.setProperty("--intro-progress", sectionProgress(intro).toFixed(4));
+
+      // 1. Show navbar after scrolling marquee out of viewport
+      const marquee = document.querySelector(".hero-marquee-container");
+      const nav = document.querySelector(".nav");
+      if (marquee && nav) {
+        const rect = marquee.getBoundingClientRect();
+        if (rect.bottom <= 0) {
+          nav.classList.add("is-visible");
+        } else {
+          nav.classList.remove("is-visible");
+        }
+      }
+
+      // 2. Ribbons horizontal counter-scroll (centered parallax without gaps)
+      if (filmRowTop && filmRowBottom) {
+        const offset = (filmProgress - 0.5) * 600; // smooth 600px translation for high dynamic parallax
+        filmRowTop.style.transform = `translate3d(${-offset}px, 0, 0)`;
+        filmRowBottom.style.transform = `translate3d(${offset}px, 0, 0)`;
+      }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => entry.target.classList.toggle("is-visible", entry.isIntersecting));
+    }, { threshold: 0.1 });
+
+    rows.forEach((row) => observer.observe(row));
+    updateMotion();
+    addEventListener("scroll", updateMotion, { passive: true });
+    addEventListener("resize", updateMotion);
+
+    function switchDay(dayId) {
+      // Toggle active state on buttons
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.classList.remove("active");
+      });
+      event.currentTarget.classList.add("active");
+
+      // Toggle active day content
+      document.querySelectorAll(".program-day-content").forEach(content => {
+        content.classList.remove("active");
+      });
+      document.getElementById(dayId).classList.add("active");
+    }
+
+    // Lightbox modal functionality
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = lightbox.querySelector(".lightbox-image");
+    const lightboxVideo = lightbox.querySelector(".lightbox-video");
+    const lightboxClose = lightbox.querySelector(".lightbox-close");
+
+    // Global zoomable list: film cards, intro portraits, identity visuals, map polaroids
+    document.querySelectorAll(".film-card, .intro-frame, .visual-card img, .map-polaroid-frame img, .lightbox-trigger").forEach(card => {
+      // Set zoom-in cursor dynamically to guide the user
+      if (card.tagName === 'IMG' || card.tagName === 'VIDEO') {
+        card.style.cursor = 'zoom-in';
+      } else {
+        const innerImg = card.querySelector('img');
+        if (innerImg) innerImg.style.cursor = 'zoom-in';
+      }
+
+      card.addEventListener("click", () => {
+        const img = card.tagName === 'IMG' ? card : card.querySelector("img");
+        const video = card.tagName === 'VIDEO' ? card : card.querySelector("video");
+
+        lightboxImg.style.display = "none";
+        lightboxImg.src = "";
+        lightboxVideo.style.display = "none";
+        lightboxVideo.src = "";
+
+        if (img) {
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt || "";
+          lightboxImg.style.display = "block";
+        } else if (video) {
+          lightboxVideo.src = video.src;
+          lightboxVideo.style.display = "block";
+        }
+
+        lightbox.classList.add("is-active");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden"; // disable scroll
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove("is-active");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = ""; // enable scroll
+      setTimeout(() => {
+        lightboxImg.src = "";
+        lightboxVideo.src = "";
+        lightboxImg.style.display = "none";
+        lightboxVideo.style.display = "none";
+      }, 300);
+    }
+    
+    // Bind click listener to close button (X)
+    if (lightboxClose) {
+      lightboxClose.addEventListener("click", (e) => {
+        e.stopPropagation();
+        closeLightbox();
+      });
+    }
+
+    // Clicking the background of the lightbox also closes it
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // Sticky stacked day headers smooth scroll jump
+    document.querySelectorAll('.program-day-header').forEach(header => {
+      header.addEventListener('click', (e) => {
+        const id = header.id; // 'day-1-header', 'day-2-header', 'day-3-header'
+        const targetEl = document.querySelector(`.${id.replace('-header', '-first-row')}`);
+        if (!targetEl) return;
+        
+        let offset = 3.8; // navbar height in rem
+        if (id === 'day-1-header') {
+          offset += 3.2; // day-1 header height
+        } else if (id === 'day-2-header') {
+          offset += 3.2 + 3.2; // day-1 + day-2 header heights
+        } else if (id === 'day-3-header') {
+          offset += 3.2 + 3.2 + 3.2; // day-1 + day-2 + day-3 header heights
+        }
+        
+        const remToPx = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+        const offsetPx = offset * remToPx;
+        const elementPosition = targetEl.getBoundingClientRect().top + window.scrollY;
+        
+        window.scrollTo(0, elementPosition - offsetPx - 4);
+      });
+    });
+
+    // Background sound toggle and autoplay logic with visual diagnostics
+    const soundBtn = document.querySelector('.sound-toggle');
+    const audio = document.getElementById('bg-sound');
+    
+    const diagLog = (msg) => {
+      console.log("[AudioDiag]", msg);
+      let box = document.getElementById('audio-diag');
+      if (!box) {
+        box = document.createElement('div');
+        box.id = 'audio-diag';
+        box.style.position = 'fixed';
+        box.style.bottom = '10px';
+        box.style.right = '10px';
+        box.style.background = 'rgba(24, 56, 58, 0.95)';
+        box.style.border = '1px solid rgba(248, 244, 233, 0.2)';
+        box.style.color = '#ebd58b';
+        box.style.padding = '6px 10px';
+        box.style.zIndex = '999999';
+        box.style.fontFamily = 'sans-serif';
+        box.style.fontSize = '11px';
+        box.style.borderRadius = '20px';
+        box.style.pointerEvents = 'none';
+        box.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+        document.body.appendChild(box);
+      }
+      box.innerHTML = "📢 סאונד: " + msg;
+    };
+
+    if (soundBtn && audio) {
+      audio.volume = 0.3; // soft bg volume
+
+      // Listen for HTML5 audio status events
+      audio.addEventListener('error', () => {
+        diagLog("שגיאת טעינה (קובץ לא נמצא או חסום)");
+      });
+      audio.addEventListener('canplay', () => {
+        diagLog("מוכן לניגון (הקלק/י על המסך להפעלה)");
+      });
+      audio.addEventListener('play', () => {
+        diagLog("מתנגן כעת ❖");
+        soundBtn.classList.add('is-playing');
+      });
+      audio.addEventListener('pause', () => {
+        diagLog("מושתק (לחץ/י לניגון)");
+        soundBtn.classList.remove('is-playing');
+      });
+
+      const playAudio = () => {
+        audio.play().then(() => {
+          diagLog("מתנגן כעת ❖");
+        }).catch(err => {
+          diagLog("הניגון חסום. הקלק/י/גלול/י להפעלה");
+        });
+      };
+
+      // Try autoplay immediately
+      playAudio();
+
+      // Fallback: use capture-phase event listeners to bypass e.stopPropagation() blocks!
+      const initAudioOnInteraction = () => {
+        if (audio.paused) {
+          playAudio();
+        }
+        // Clean up listeners
+        document.removeEventListener('click', initAudioOnInteraction, true);
+        document.removeEventListener('touchstart', initAudioOnInteraction, true);
+        document.removeEventListener('mousedown', initAudioOnInteraction, true);
+        document.removeEventListener('keydown', initAudioOnInteraction, true);
+      };
+
+      document.addEventListener('click', initAudioOnInteraction, true);
+      document.addEventListener('touchstart', initAudioOnInteraction, { capture: true, passive: true });
+      document.addEventListener('mousedown', initAudioOnInteraction, true);
+      document.addEventListener('keydown', initAudioOnInteraction, true);
+
+      // Manual toggle button click
+      soundBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (audio.paused) {
+          audio.play().then(() => {
+            diagLog("מתנגן כעת ❖");
+          }).catch(err => {
+            diagLog("שגיאת הפעלה: " + err.message);
+          });
+        } else {
+          audio.pause();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+
