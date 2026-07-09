@@ -255,12 +255,14 @@
       position: absolute;
       bottom: clamp(2rem, 4vh, 4rem);
       right: clamp(2rem, 5vw, 6rem);
+      left: auto;
       max-width: calc(100vw - 4rem);
       z-index: 4;
       pointer-events: none;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
+      direction: rtl;
     }
 
     .hero-meta-right {
@@ -271,6 +273,7 @@
       flex-direction: column;
       align-items: flex-end;
       gap: 0.35rem;
+      direction: rtl;
     }
 
     .hero-brand-title,
@@ -283,6 +286,8 @@
       text-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
       text-align: right;
       white-space: nowrap;
+      direction: rtl;
+      width: max-content;
     }
 
     .marquee-wrap {
@@ -2032,4 +2037,3 @@
   </script>
 </body>
 </html>
-
