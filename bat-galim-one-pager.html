@@ -1830,7 +1830,7 @@
       <span></span>
     </span>
   </button>
-  <audio id="bg-sound" src="bat-galim-assets/stereogenicstudio-beach-02-404144.mp3" loop preload="auto"></audio>
+  <audio id="bg-sound" src="bat-galim-assets/stereogenicstudio-beach-02-404144.mp3" loop autoplay preload="auto"></audio>
 
   <div class="lightbox-modal" id="lightbox" aria-hidden="true" role="dialog">
     <button class="lightbox-close" aria-label="סגור תמונה">&times;</button>
@@ -2068,15 +2068,23 @@
       audio.addEventListener("pause", syncSoundState);
       syncSoundState();
 
+      playAudio();
+
       const initAudioOnInteraction = () => {
         if (audio.paused) playAudio();
         document.removeEventListener("click", initAudioOnInteraction, true);
+        document.removeEventListener("mousedown", initAudioOnInteraction, true);
+        document.removeEventListener("pointerdown", initAudioOnInteraction, true);
         document.removeEventListener("touchstart", initAudioOnInteraction, true);
+        document.removeEventListener("wheel", initAudioOnInteraction, true);
         document.removeEventListener("keydown", initAudioOnInteraction, true);
       };
 
       document.addEventListener("click", initAudioOnInteraction, true);
+      document.addEventListener("mousedown", initAudioOnInteraction, true);
+      document.addEventListener("pointerdown", initAudioOnInteraction, true);
       document.addEventListener("touchstart", initAudioOnInteraction, { capture: true, passive: true });
+      document.addEventListener("wheel", initAudioOnInteraction, { capture: true, passive: true });
       document.addEventListener("keydown", initAudioOnInteraction, true);
 
       soundBtn.addEventListener("click", event => {
