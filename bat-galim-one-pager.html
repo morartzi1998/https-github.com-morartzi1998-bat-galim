@@ -818,9 +818,9 @@
 
     .map-grid-wrap {
       display: grid;
-      grid-template-columns: minmax(18rem, 1fr) minmax(22rem, 1.25fr);
+      grid-template-columns: minmax(18rem, 0.86fr) minmax(26rem, 1.42fr);
       gap: clamp(2rem, 4vw, 5rem);
-      max-width: 74rem;
+      max-width: 82rem;
       margin: 0 auto;
       align-items: center;
       direction: rtl;
@@ -892,37 +892,78 @@
     }
 
     .map-preview-wrap {
+      position: relative;
       display: flex;
-      gap: 1.5rem;
+      gap: clamp(1rem, 2vw, 1.7rem);
       justify-content: center;
       align-items: center;
       width: 100%;
-      max-width: 46rem;
+      max-width: 56rem;
+      min-height: clamp(20rem, 34vw, 32rem);
+      padding: clamp(1.4rem, 3vw, 2.6rem);
+      background:
+        radial-gradient(circle at 22% 18%, rgba(235, 213, 139, 0.12), transparent 14rem),
+        linear-gradient(135deg, rgba(248, 244, 233, 0.08), rgba(248, 244, 233, 0.025));
+      border: 1px solid rgba(248, 244, 233, 0.14);
+      box-shadow: inset 0 0 0 1px rgba(24, 56, 58, 0.25), 0 1.8rem 4rem rgba(10, 30, 32, 0.22);
       justify-self: center;
     }
 
     .map-polaroid-frame {
       position: relative;
+      --pin-x: 0px;
+      --pin-y: 0px;
+      --pin-rotate: 0deg;
       padding: 0.65rem 0.65rem 1.5rem 0.65rem;
       background: #ffffff;
       border: 1px solid rgba(248, 244, 233, 0.12);
       box-shadow: 0 1.5rem 4rem rgba(10, 30, 32, 0.45);
-      cursor: zoom-in;
-      transition: transform 300ms ease, box-shadow 300ms ease;
+      cursor: grab;
+      transition: transform 260ms ease, box-shadow 260ms ease;
       flex: 1;
       min-width: 0;
+      touch-action: none;
+      user-select: none;
+      transform: translate3d(var(--pin-x), var(--pin-y), 0) rotate(var(--pin-rotate));
+    }
+
+    .map-polaroid-frame::before {
+      content: "";
+      position: absolute;
+      top: 0.42rem;
+      left: 50%;
+      z-index: 2;
+      width: 0.82rem;
+      height: 0.82rem;
+      background: radial-gradient(circle at 35% 30%, #fff3b6 0 16%, var(--sun) 17% 55%, #9f7830 56% 100%);
+      border-radius: 999px;
+      box-shadow: 0 0.18rem 0.45rem rgba(24, 56, 58, 0.45);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .map-polaroid-frame.is-dragging {
+      cursor: grabbing;
+      transition: none;
+      z-index: 20;
+    }
+
+    .map-polaroid-frame.is-dragging:hover {
+      transform: translate3d(var(--pin-x), var(--pin-y), 0) rotate(var(--pin-rotate)) scale(1.02);
     }
 
     .map-polaroid-frame.map-frame {
-      transform: rotate(-3deg);
+      --pin-rotate: -2.5deg;
+      flex: 1.28;
     }
 
     .map-polaroid-frame.program-frame {
-      transform: rotate(2.5deg);
+      --pin-rotate: 2deg;
+      flex: 0.88;
     }
 
     .map-polaroid-frame:hover {
-      transform: rotate(0deg) scale(1.05);
+      transform: translate3d(var(--pin-x), var(--pin-y), 0) rotate(0deg) scale(1.04);
       box-shadow: 0 2rem 5rem rgba(10, 30, 32, 0.6);
       z-index: 10;
     }
@@ -932,6 +973,7 @@
       height: auto;
       display: block;
       border: 1px solid rgba(24, 56, 58, 0.06);
+      cursor: inherit !important;
     }
 
     .polaroid-label {
@@ -946,8 +988,8 @@
 
     .map-footer-quote {
       text-align: center;
-      margin-top: clamp(3rem, 6vw, 5.5rem);
-      padding-top: clamp(2rem, 4vw, 3.5rem);
+      margin-top: clamp(6rem, 10vw, 9rem);
+      padding-top: clamp(3rem, 5vw, 4.5rem);
       border-top: 1px solid rgba(248, 244, 233, 0.18);
     }
 
@@ -1802,6 +1844,62 @@
     const lightboxImg = lightbox.querySelector(".lightbox-image");
     const lightboxVideo = lightbox.querySelector(".lightbox-video");
     const lightboxClose = lightbox.querySelector(".lightbox-close");
+
+    document.querySelectorAll(".map-polaroid-frame").forEach(frame => {
+      let startX = 0;
+      let startY = 0;
+      let baseX = 0;
+      let baseY = 0;
+      let moved = false;
+
+      const setPosition = (x, y) => {
+        const board = frame.parentElement.getBoundingClientRect();
+        const card = frame.getBoundingClientRect();
+        const maxX = Math.max(22, (board.width - card.width) / 2 - 8);
+        const maxY = Math.max(18, (board.height - card.height) / 2 - 8);
+        baseX = Math.min(maxX, Math.max(-maxX, x));
+        baseY = Math.min(maxY, Math.max(-maxY, y));
+        frame.style.setProperty("--pin-x", `${baseX}px`);
+        frame.style.setProperty("--pin-y", `${baseY}px`);
+      };
+
+      frame.addEventListener("pointerdown", event => {
+        if (event.button !== 0) return;
+        startX = event.clientX;
+        startY = event.clientY;
+        moved = false;
+        frame.classList.add("is-dragging");
+        frame.setPointerCapture(event.pointerId);
+      });
+
+      frame.addEventListener("pointermove", event => {
+        if (!frame.classList.contains("is-dragging")) return;
+        const nextX = baseX + event.clientX - startX;
+        const nextY = baseY + event.clientY - startY;
+        if (Math.abs(event.clientX - startX) + Math.abs(event.clientY - startY) > 5) {
+          moved = true;
+        }
+        startX = event.clientX;
+        startY = event.clientY;
+        setPosition(nextX, nextY);
+      });
+
+      const stopDrag = event => {
+        frame.classList.remove("is-dragging");
+        if (frame.hasPointerCapture(event.pointerId)) {
+          frame.releasePointerCapture(event.pointerId);
+        }
+      };
+
+      frame.addEventListener("pointerup", stopDrag);
+      frame.addEventListener("pointercancel", stopDrag);
+      frame.addEventListener("click", event => {
+        if (!moved) return;
+        event.preventDefault();
+        event.stopPropagation();
+        moved = false;
+      }, true);
+    });
 
     // Global zoomable list: film cards, intro portraits, identity visuals, map polaroids
     document.querySelectorAll(".film-card, .intro-frame, .visual-card img, .map-polaroid-frame img, .lightbox-trigger").forEach(card => {
