@@ -1320,64 +1320,6 @@
       }
     }
 
-    /* Sound toggle styles */
-    .sound-toggle {
-      position: fixed;
-      bottom: 2rem;
-      left: 2rem;
-      z-index: 99;
-      width: 3.2rem;
-      height: 3.2rem;
-      border-radius: 50%;
-      border: 1px solid rgba(248, 244, 233, 0.15);
-      background: rgba(24, 56, 58, 0.8);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-      transition: background-color 300ms ease, transform 300ms ease, border-color 300ms ease;
-    }
-
-    .sound-toggle:hover {
-      background: rgba(24, 56, 58, 0.95);
-      border-color: rgba(255, 251, 125, 0.7);
-      transform: scale(1.05);
-    }
-
-    .sound-icon-waves {
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      height: 1.1rem;
-    }
-
-    .sound-icon-waves span {
-      display: block;
-      width: 3px;
-      background: var(--paper-clean);
-      border-radius: 2px;
-      transform-origin: bottom;
-      animation: soundWaveQuiet 1.2s ease infinite alternate;
-      animation-play-state: paused;
-    }
-
-    .sound-toggle.is-playing .sound-icon-waves span {
-      animation-play-state: running;
-      background: var(--sun);
-    }
-
-    .sound-icon-waves span:nth-child(1) { height: 35%; animation-duration: 0.8s; }
-    .sound-icon-waves span:nth-child(2) { height: 75%; animation-duration: 1.1s; animation-delay: 0.15s; }
-    .sound-icon-waves span:nth-child(3) { height: 50%; animation-duration: 0.9s; animation-delay: 0.3s; }
-    .sound-icon-waves span:nth-child(4) { height: 95%; animation-duration: 1.2s; animation-delay: 0.05s; }
-
-    @keyframes soundWaveQuiet {
-      0% { transform: scaleY(0.3); }
-      100% { transform: scaleY(1); }
-    }
   </style>
 </head>
 <body>
@@ -1771,17 +1713,6 @@
     </section>
   </main>
 
-  <!-- Sound Toggle Button -->
-  <button class="sound-toggle" aria-label="הפעלה או השתקת סאונד רקע">
-    <span class="sound-icon-waves">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </span>
-  </button>
-  <audio id="bg-sound" src="bat-galim-assets/stereogenicstudio-beach-02-404144.mp3" loop autoplay preload="auto"></audio>
-
   <div class="lightbox-modal" id="lightbox" aria-hidden="true" role="dialog">
     <button class="lightbox-close" aria-label="סגור תמונה">&times;</button>
     <img class="lightbox-image" src="" alt="">
@@ -1945,95 +1876,6 @@
       });
     });
 
-    // Background sound toggle and autoplay logic with visual diagnostics
-    const soundBtn = document.querySelector('.sound-toggle');
-    const audio = document.getElementById('bg-sound');
-    
-    const diagLog = (msg) => {
-      console.log("[AudioDiag]", msg);
-      let box = document.getElementById('audio-diag');
-      if (!box) {
-        box = document.createElement('div');
-        box.id = 'audio-diag';
-        box.style.position = 'fixed';
-        box.style.bottom = '10px';
-        box.style.right = '10px';
-        box.style.background = 'rgba(24, 56, 58, 0.95)';
-        box.style.border = '1px solid rgba(248, 244, 233, 0.2)';
-        box.style.color = '#ebd58b';
-        box.style.padding = '6px 10px';
-        box.style.zIndex = '999999';
-        box.style.fontFamily = 'sans-serif';
-        box.style.fontSize = '11px';
-        box.style.borderRadius = '20px';
-        box.style.pointerEvents = 'none';
-        box.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
-        document.body.appendChild(box);
-      }
-      box.innerHTML = "📢 סאונד: " + msg;
-    };
-
-    if (soundBtn && audio) {
-      audio.volume = 0.3; // soft bg volume
-
-      // Listen for HTML5 audio status events
-      audio.addEventListener('error', () => {
-        diagLog("שגיאת טעינה (קובץ לא נמצא או חסום)");
-      });
-      audio.addEventListener('canplay', () => {
-        diagLog("מוכן לניגון (הקלק/י על המסך להפעלה)");
-      });
-      audio.addEventListener('play', () => {
-        diagLog("מתנגן כעת ❖");
-        soundBtn.classList.add('is-playing');
-      });
-      audio.addEventListener('pause', () => {
-        diagLog("מושתק (לחץ/י לניגון)");
-        soundBtn.classList.remove('is-playing');
-      });
-
-      const playAudio = () => {
-        audio.play().then(() => {
-          diagLog("מתנגן כעת ❖");
-        }).catch(err => {
-          diagLog("הניגון חסום. הקלק/י/גלול/י להפעלה");
-        });
-      };
-
-      // Try autoplay immediately
-      playAudio();
-
-      // Fallback: use capture-phase event listeners to bypass e.stopPropagation() blocks!
-      const initAudioOnInteraction = () => {
-        if (audio.paused) {
-          playAudio();
-        }
-        // Clean up listeners
-        document.removeEventListener('click', initAudioOnInteraction, true);
-        document.removeEventListener('touchstart', initAudioOnInteraction, true);
-        document.removeEventListener('mousedown', initAudioOnInteraction, true);
-        document.removeEventListener('keydown', initAudioOnInteraction, true);
-      };
-
-      document.addEventListener('click', initAudioOnInteraction, true);
-      document.addEventListener('touchstart', initAudioOnInteraction, { capture: true, passive: true });
-      document.addEventListener('mousedown', initAudioOnInteraction, true);
-      document.addEventListener('keydown', initAudioOnInteraction, true);
-
-      // Manual toggle button click
-      soundBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (audio.paused) {
-          audio.play().then(() => {
-            diagLog("מתנגן כעת ❖");
-          }).catch(err => {
-            diagLog("שגיאת הפעלה: " + err.message);
-          });
-        } else {
-          audio.pause();
-        }
-      });
-    }
   </script>
 </body>
 </html>
