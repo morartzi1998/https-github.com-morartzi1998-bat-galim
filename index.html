@@ -588,7 +588,7 @@
 
     .program-day-header {
       position: sticky;
-      height: 3.2rem;
+      height: 4.35rem;
       box-sizing: border-box;
       background-color: #1f555b !important;
       opacity: 1 !important;
@@ -596,7 +596,7 @@
       padding: 0 clamp(1.2rem, 4vw, 4rem);
       display: flex;
       align-items: center;
-      gap: 1.2rem;
+      gap: clamp(1rem, 2.5vw, 2.2rem);
       border-bottom: 2px solid rgba(255, 251, 125, 0.25);
       border-top: 1px solid rgba(248, 244, 233, 0.08);
       margin-top: 0;
@@ -617,12 +617,12 @@
     }
 
     .program .day-2-header {
-      top: calc(3.8rem + 3.2rem);
+      top: calc(3.8rem + 4.35rem);
       z-index: 122;
     }
 
     .program .day-3-header {
-      top: calc(3.8rem + 6.4rem);
+      top: calc(3.8rem + 8.7rem);
       z-index: 123;
     }
 
@@ -632,17 +632,27 @@
       font-weight: 790;
       font-size: clamp(1rem, 1.5vw, 1.2rem);
       color: var(--sun);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
+      min-width: 3ch;
     }
 
     .day-name {
       font-family: "Simta", serif;
       font-variation-settings: "wght" 790;
       font-weight: 790;
-      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-size: clamp(1.35rem, 2.45vw, 2rem);
       color: rgba(248, 244, 233, 0.95);
-      line-height: 1;
+      line-height: 1.05;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.55em;
+      white-space: nowrap;
+    }
+
+    .day-date {
+      color: var(--sun);
+      font-size: 0.9em;
     }
 
     .program-row {
@@ -1414,7 +1424,7 @@
       <!-- יום חמישי -->
       <div id="day-1-header" class="program-day-header day-1-header">
         <span class="day-number">01</span>
-        <span class="day-name">חמישי 9.10</span>
+        <span class="day-name"><span>חמישי</span><span class="day-date">9.10</span></span>
       </div>
 
       <article class="program-row day-1-first-row">
@@ -1504,7 +1514,7 @@
       <!-- יום שישי -->
       <div id="day-2-header" class="program-day-header day-2-header">
         <span class="day-number">02</span>
-        <span class="day-name">שישי 10.10</span>
+        <span class="day-name"><span>שישי</span><span class="day-date">10.10</span></span>
       </div>
 
       <article class="program-row day-2-first-row">
@@ -1570,7 +1580,7 @@
       <!-- יום שבת -->
       <div id="day-3-header" class="program-day-header day-3-header">
         <span class="day-number">03</span>
-        <span class="day-name">שבת 11.10</span>
+        <span class="day-name"><span>שבת</span><span class="day-date">11.10</span></span>
       </div>
 
       <article class="program-row day-3-first-row">
