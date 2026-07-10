@@ -2076,7 +2076,9 @@
         document.removeEventListener("mousedown", initAudioOnInteraction, true);
         document.removeEventListener("pointerdown", initAudioOnInteraction, true);
         document.removeEventListener("touchstart", initAudioOnInteraction, true);
+        document.removeEventListener("touchmove", initAudioOnInteraction, true);
         document.removeEventListener("wheel", initAudioOnInteraction, true);
+        window.removeEventListener("scroll", initAudioOnInteraction, true);
         document.removeEventListener("keydown", initAudioOnInteraction, true);
       };
 
@@ -2084,7 +2086,9 @@
       document.addEventListener("mousedown", initAudioOnInteraction, true);
       document.addEventListener("pointerdown", initAudioOnInteraction, true);
       document.addEventListener("touchstart", initAudioOnInteraction, { capture: true, passive: true });
+      document.addEventListener("touchmove", initAudioOnInteraction, { capture: true, passive: true });
       document.addEventListener("wheel", initAudioOnInteraction, { capture: true, passive: true });
+      window.addEventListener("scroll", initAudioOnInteraction, { capture: true, passive: true });
       document.addEventListener("keydown", initAudioOnInteraction, true);
 
       soundBtn.addEventListener("click", event => {
