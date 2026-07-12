@@ -915,7 +915,7 @@
       --pin-y: 0px;
       --pin-rotate: 0deg;
       padding: 0.65rem 0.65rem 1.5rem 0.65rem;
-      background: #ffffff;
+      background: #ead8ba;
       border: 1px solid rgba(248, 244, 233, 0.12);
       box-shadow: 0 1.5rem 4rem rgba(10, 30, 32, 0.45);
       cursor: grab;
@@ -954,10 +954,13 @@
 
     .map-polaroid-frame.map-frame {
       --pin-rotate: -2.5deg;
+      flex: 1.15 1 0;
     }
 
     .map-polaroid-frame.program-frame {
       --pin-rotate: 2deg;
+      flex: 0.72 1 0;
+      max-width: 18rem;
     }
 
     .map-polaroid-frame:hover {
@@ -977,6 +980,10 @@
       pointer-events: auto;
     }
 
+    .program-frame img {
+      height: clamp(19rem, 30vw, 27rem);
+    }
+
     .drag-cue {
       position: absolute;
       top: 1rem;
@@ -984,13 +991,12 @@
       z-index: 4;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.42rem 0.68rem;
+      justify-content: center;
+      width: 2.15rem;
+      height: 2.15rem;
       border-radius: 999px;
       background: rgba(24, 56, 58, 0.88);
       color: var(--paper);
-      font-size: 0.72rem;
-      font-weight: 800;
       box-shadow: 0 0.3rem 1rem rgba(10, 30, 32, 0.28);
       pointer-events: none;
     }
@@ -1830,12 +1836,12 @@
         <!-- Styled Polaroid Previews: Map & Program -->
         <div class="map-preview-wrap">
           <div class="map-polaroid-frame map-frame">
-            <span class="drag-cue">גררו להזזה</span>
+            <span class="drag-cue" aria-hidden="true"></span>
             <img class="lightbox-trigger" draggable="false" src="bat-galim-assets/map-new.png" alt="מפת הפסטיבל">
             <span class="polaroid-label">מפת הפסטיבל</span>
           </div>
           <div class="map-polaroid-frame program-frame">
-            <span class="drag-cue">גררו להזזה</span>
+            <span class="drag-cue" aria-hidden="true"></span>
             <img class="lightbox-trigger" draggable="false" src="bat-galim-assets/program-new.png" alt="תוכניית הפסטיבל">
             <span class="polaroid-label">תוכניית הפסטיבל</span>
           </div>
