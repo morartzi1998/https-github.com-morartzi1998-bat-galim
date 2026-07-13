@@ -483,7 +483,7 @@
 
     .film {
       position: relative;
-      min-height: 420svh;
+      min-height: 260svh;
       background: var(--ink);
       border-bottom: 1px solid rgba(248, 244, 233, 0.1);
       overflow: clip;
@@ -1846,12 +1846,12 @@
           <div class="map-polaroid-frame map-frame">
             <span class="drag-cue" aria-hidden="true"></span>
             <img class="lightbox-trigger" draggable="false" src="bat-galim-assets/map-new.png" alt="מפת הפסטיבל">
-            <button class="polaroid-label" type="button">מפת הפסטיבל — לחצו לצפייה</button>
+            <a class="polaroid-label" href="bat-galim-assets/map-new.png" target="_blank" rel="noopener">מפת הפסטיבל — לחצו לצפייה בגודל מלא</a>
           </div>
           <div class="map-polaroid-frame program-frame">
             <span class="drag-cue" aria-hidden="true"></span>
             <img class="lightbox-trigger" draggable="false" src="bat-galim-assets/program-new.png" alt="תוכניית הפסטיבל">
-            <button class="polaroid-label" type="button">תוכניית הפסטיבל — לחצו לצפייה</button>
+            <a class="polaroid-label" href="bat-galim-assets/program-new.png" target="_blank" rel="noopener">תוכניית הפסטיבל — לחצו לצפייה בגודל מלא</a>
           </div>
         </div>
 
@@ -1918,9 +1918,11 @@
 
       // 2. Ribbons horizontal counter-scroll (centered parallax without gaps)
       if (filmRowTop && filmRowBottom) {
-        const offset = (filmProgress - 0.5) * 600; // smooth 600px translation for high dynamic parallax
-        filmRowTop.style.transform = `translate3d(${-offset}px, 0, 0)`;
-        filmRowBottom.style.transform = `translate3d(${offset}px, 0, 0)`;
+        const topTravel = Math.max(0, (filmRowTop.scrollWidth - window.innerWidth) / 2 + 24);
+        const bottomTravel = Math.max(0, (filmRowBottom.scrollWidth - window.innerWidth) / 2 + 24);
+        const direction = filmProgress * 2 - 1;
+        filmRowTop.style.transform = `translate3d(${-direction * topTravel}px, 0, 0)`;
+        filmRowBottom.style.transform = `translate3d(${direction * bottomTravel}px, 0, 0)`;
       }
     }
 
@@ -2023,11 +2025,6 @@
           event.preventDefault();
           openImageLightbox(event.currentTarget);
         }
-      });
-      frame.querySelector(".polaroid-label").addEventListener("click", event => {
-        event.preventDefault();
-        event.stopPropagation();
-        openImageLightbox(frame.querySelector("img"));
       });
       frame.addEventListener("click", event => {
         if (!moved) return;
