@@ -1038,6 +1038,15 @@
       pointer-events: auto;
     }
 
+    .preview-image-link {
+      display: block;
+      cursor: zoom-in;
+    }
+
+    .preview-image-link img {
+      cursor: zoom-in !important;
+    }
+
     .drag-cue {
       position: absolute;
       top: 1rem;
@@ -1903,12 +1912,16 @@
         <div class="map-preview-wrap">
           <div class="map-polaroid-frame map-frame">
             <span class="drag-cue" aria-hidden="true"></span>
-            <img class="lightbox-trigger" draggable="false" src="bat-galim-assets/map-new.png" alt="מפת הפסטיבל">
+            <a class="preview-image-link" href="bat-galim-assets/map-new.png" target="_blank" rel="noopener" aria-label="פתיחת מפת הפסטיבל בגודל מלא">
+              <img draggable="false" src="bat-galim-assets/map-new.png" alt="מפת הפסטיבל">
+            </a>
             <a class="polaroid-label" href="bat-galim-assets/map-new.png" target="_blank" rel="noopener">מפת הפסטיבל — לחצו לצפייה בגודל מלא</a>
           </div>
           <div class="map-polaroid-frame program-frame">
             <span class="drag-cue" aria-hidden="true"></span>
-            <img class="lightbox-trigger" draggable="false" src="bat-galim-assets/program-new.png" alt="תוכניית הפסטיבל">
+            <a class="preview-image-link" href="bat-galim-assets/program-new.png" target="_blank" rel="noopener" aria-label="פתיחת תוכניית הפסטיבל בגודל מלא">
+              <img draggable="false" src="bat-galim-assets/program-new.png" alt="תוכניית הפסטיבל">
+            </a>
             <a class="polaroid-label" href="bat-galim-assets/program-new.png" target="_blank" rel="noopener">תוכניית הפסטיבל — לחצו לצפייה בגודל מלא</a>
           </div>
         </div>
@@ -2094,12 +2107,6 @@
 
       frame.addEventListener("pointerup", stopDrag);
       frame.addEventListener("pointercancel", stopDrag);
-      frame.querySelector("img").addEventListener("pointerup", event => {
-        if (!moved) {
-          event.preventDefault();
-          openImageLightbox(event.currentTarget);
-        }
-      });
       frame.addEventListener("click", event => {
         if (!moved) return;
         event.preventDefault();
