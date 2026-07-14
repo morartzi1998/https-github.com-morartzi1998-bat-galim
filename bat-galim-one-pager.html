@@ -456,6 +456,17 @@
       font-weight: 400;
     }
 
+    .description-col .intro-block {
+      align-items: flex-end;
+    }
+
+    .description-col h3 {
+      width: max-content;
+      max-width: 100%;
+      white-space: nowrap;
+      text-align: right;
+    }
+
     .unified-column p {
       margin: 0;
       font-size: clamp(1rem, 1.2vw, 1.16rem);
@@ -1551,7 +1562,7 @@
 
           <!-- ימין: על הפסטיבל -->
           <div class="unified-column description-col">
-            <h2><span class="simta">על הפסטיבל</span></h2>
+            <h2><span class="simta">על <span class="festival-word">הפסטיבל</span></span></h2>
             <div class="intro-block">
               <h3>בתים פתוחים וסיורים</h3>
               <p>שלושה ימים של מפגשים אינטימיים בסטודיו ובבתים הפרטיים של יוצרי השכונה. לצדם יתקיימו סיורים מודרכים באדריכלות ההיסטורית, מופעי מוזיקה, הצגות וסדנאות יצירה לכל המשפחה.</p>
@@ -1933,6 +1944,22 @@
     const rows = document.querySelectorAll(".program-row");
     const filmRowTop = document.querySelector(".film-row.top");
     const filmRowBottom = document.querySelector(".film-row.bottom");
+
+    function alignAboutSubtitle() {
+      const word = document.querySelector(".festival-word");
+      const subtitle = document.querySelector(".description-col h3");
+      if (!word || !subtitle) return;
+      subtitle.style.fontSize = "";
+      const naturalWidth = subtitle.getBoundingClientRect().width;
+      const targetWidth = word.getBoundingClientRect().width;
+      const baseSize = parseFloat(getComputedStyle(subtitle).fontSize);
+      if (naturalWidth > 0 && targetWidth > 0) {
+        subtitle.style.fontSize = `${baseSize * targetWidth / naturalWidth}px`;
+      }
+    }
+
+    document.fonts?.ready.then(alignAboutSubtitle);
+    addEventListener("resize", alignAboutSubtitle);
 
     function sectionProgress(section) {
       if (!section) return 0;
