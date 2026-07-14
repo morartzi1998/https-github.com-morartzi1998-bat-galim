@@ -295,6 +295,40 @@
       unicode-bidi: isolate;
     }
 
+    .hero-scroll-cue {
+      position: absolute;
+      bottom: clamp(1.2rem, 2.4vh, 2rem);
+      left: 50%;
+      z-index: 5;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      color: var(--paper-clean);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-decoration: none;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
+      transform: translateX(-50%);
+    }
+
+    .hero-scroll-cue::after {
+      content: "↓";
+      display: grid;
+      place-items: center;
+      width: 2.2rem;
+      height: 2.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      font-size: 1.1rem;
+      animation: scrollCue 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scrollCue {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(0.35rem); }
+    }
+
     .marquee-wrap {
       position: relative;
       overflow: hidden;
@@ -382,7 +416,7 @@
 
     .details-bottom > p {
       margin: 0 0 1.2rem;
-      font-size: clamp(0.7rem, 0.8vw, 0.82rem);
+      font-size: clamp(1rem, 1.25vw, 1.2rem);
       font-weight: 800;
       line-height: 1.65;
       color: var(--ink);
@@ -411,7 +445,7 @@
 
     .unified-column p {
       margin: 0;
-      font-size: clamp(0.65rem, 0.75vw, 0.78rem);
+      font-size: clamp(1rem, 1.2vw, 1.16rem);
       font-weight: 800;
       line-height: 1.65;
       color: var(--ink);
@@ -781,7 +815,7 @@
       gap: 1rem;
       padding: 0.8rem 0;
       border-bottom: 1px solid var(--line);
-      font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+      font-size: clamp(1rem, 1.25vw, 1.16rem);
       font-weight: 800;
     }
 
@@ -1490,10 +1524,10 @@
 
       <div class="hero-bottom-meta">
         <div class="hero-meta-right">
-          <p class="hero-brand-title">פסטיבל ה-16</p>
-          <p class="hero-brand-date"><span class="hero-brand-date-number">11-9</span> באוקטובר</p>
+          <p class="hero-brand-date"><span class="hero-brand-date-number">11—9</span> באוקטובר</p>
         </div>
       </div>
+      <a class="hero-scroll-cue" href="#about" aria-label="גלילה לפרטים נוספים">גלו עוד</a>
     </section>
 
     <!-- About + Details: Unified Section -->
@@ -1538,7 +1572,7 @@
           <h2><span class="simta">פרטים ומידע</span></h2>
           <p>פסטיבל בית גלים ה-16 מזמין אתכם לחוויה מרהיבה של אמנות, מוזיקה ותרבות לאורך קו החוף.</p>
           <div class="facts">
-            <div class="fact"><span>תאריכים</span><span>9-11.10 (חמישי-שבת)</span></div>
+            <div class="fact"><span>תאריכים</span><span>9—11.10 (חמישי—שבת)</span></div>
             <div class="fact"><span>שעות פעילות</span><span>חמישי 10:00-22:00 | שישי 10:00-14:00 | שבת 10:00-20:00</span></div>
             <div class="fact"><span>מיקום</span><span>רחבי שכונת בית גלים, חיפה</span></div>
             <div class="fact"><span>תערוכה מרכזית</span><span>גבה גלים, מרכז קהילתי בית גלים</span></div>
