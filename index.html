@@ -2059,6 +2059,7 @@
       let baseX = 0;
       let baseY = 0;
       let moved = false;
+      let pointerDown = false;
       let dragOriginX = 0;
       let dragOriginY = 0;
       let originBaseX = 0;
@@ -2084,21 +2085,25 @@
         originBaseX = baseX;
         originBaseY = baseY;
         moved = false;
-        frame.classList.add("is-dragging");
-        frame.setPointerCapture(event.pointerId);
+        pointerDown = true;
       });
 
       frame.addEventListener("pointermove", event => {
-        if (!frame.classList.contains("is-dragging")) return;
+        if (!pointerDown) return;
         const nextX = originBaseX + event.clientX - dragOriginX;
         const nextY = originBaseY + event.clientY - dragOriginY;
-        if (Math.abs(event.clientX - dragOriginX) + Math.abs(event.clientY - dragOriginY) > 12) {
+        const distance = Math.abs(event.clientX - dragOriginX) + Math.abs(event.clientY - dragOriginY);
+        if (!moved && distance > 12) {
           moved = true;
+          frame.classList.add("is-dragging");
+          frame.setPointerCapture(event.pointerId);
         }
+        if (!moved) return;
         setPosition(nextX, nextY);
       });
 
       const stopDrag = event => {
+        pointerDown = false;
         frame.classList.remove("is-dragging");
         if (frame.hasPointerCapture(event.pointerId)) {
           frame.releasePointerCapture(event.pointerId);
