@@ -178,32 +178,39 @@
 
     .hero-marquee-container {
       position: relative;
+      display: flex;
+      align-items: center;
       width: 100%;
+      min-height: clamp(5.2rem, 7vw, 7.4rem);
       overflow: hidden;
       z-index: 4;
       margin-top: 0;
       direction: ltr;
       pointer-events: none;
-      padding-block: 0.8rem;
+      padding-block: 0;
       background: var(--sand);
       border-bottom: 3px solid rgba(24, 56, 58, 0.12);
     }
 
     .hero-marquee {
       display: flex;
+      align-items: center;
       width: max-content;
+      height: 100%;
       white-space: nowrap;
       animation: heroMarquee 70s linear infinite;
     }
 
     .hero-marquee span {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
       font-family: "Simta", "Greta", serif;
       font-size: clamp(1.6rem, 3.8vw, 4.0rem);
       font-weight: normal;
       color: var(--ink);
-      line-height: 1.2;
+      line-height: 1;
       padding-right: 2rem;
+      transform: translateY(-0.04em);
     }
 
     @keyframes heroMarquee {
