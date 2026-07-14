@@ -301,32 +301,38 @@
       left: 50%;
       z-index: 5;
       display: inline-flex;
-      flex-direction: column;
       align-items: center;
-      gap: 0.25rem;
+      justify-content: center;
+      width: 2.2rem;
+      height: 2.2rem;
       color: var(--paper-clean);
       font-size: 0.78rem;
       font-weight: 800;
       text-decoration: none;
       text-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
       transform: translateX(-50%);
-    }
-
-    .hero-scroll-cue::after {
-      content: "↓";
-      display: grid;
-      place-items: center;
-      width: 2.2rem;
-      height: 2.2rem;
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      border-radius: 50%;
-      font-size: 1.1rem;
       animation: scrollCue 1.5s ease-in-out infinite;
     }
 
+    .hero-scroll-cue::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      transform: rotate(45deg);
+    }
+
+    .hero-scroll-cue::before {
+      content: "↓";
+      position: relative;
+      z-index: 1;
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
     @keyframes scrollCue {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(0.35rem); }
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(0.35rem); }
     }
 
     .marquee-wrap {
@@ -1527,7 +1533,7 @@
           <p class="hero-brand-date"><span class="hero-brand-date-number">11—9</span> באוקטובר</p>
         </div>
       </div>
-      <a class="hero-scroll-cue" href="#about" aria-label="גלילה לפרטים נוספים">גלו עוד</a>
+      <a class="hero-scroll-cue" href="#about" aria-label="גלילה לפרטים נוספים"></a>
     </section>
 
     <!-- About + Details: Unified Section -->
